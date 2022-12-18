@@ -1,4 +1,4 @@
-name: Git Version
+name: Generate tag
 
 on:
   push:
@@ -6,18 +6,17 @@ on:
       - trunk
 
 jobs:
-  lint:
+  build:
+    name: Generate tag
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: Check out code
+        uses: actions/checkout@master
         with:
-          ref: ${{ github.head_ref }}   # checkout the correct branch name
-          fetch-depth: 0                # fetch the whole repo history
+          fetch-depth: '0'
 
-      - name: commits
-        run: |
-          echo ${{ github.event.commits[0].id }}
-      - name: event
-        run: |
-          echo ${{ github.event.commits[0].tree_id }}
+      - name: Bump version and push tag
+        uses: ChloePlanet/github-tag-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
