@@ -4,17 +4,12 @@ on:
     branches:
       - trunk
 jobs:
-  build:
+  tag:
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
       with:
         fetch-depth: '0'
-    - name: Cache
-      uses: actions/cache@v3.2.0-beta.1
-      with:
-        path: /home/runner/work/_actions/anothrNick/github-tag-action/v1/Dockerfile
-        key: anothrNick/github-tag-action@v1
     - name: Bump version and push tag
       uses: anothrNick/github-tag-action@v1
       env:
