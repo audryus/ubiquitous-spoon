@@ -10,6 +10,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
+          node-version: 16
           fetch-depth: 0
       - name: Fetch tags
         shell: bash
@@ -22,4 +23,3 @@ jobs:
         run: |
           TAG=$(git describe --tags --exact-match HEAD)
           hub release create -m "$(git tag -l --format='%(contents)' "$TAG")" "$TAG" || true
-          hub release edit -m '' -a a_file "$TAG"
