@@ -15,6 +15,9 @@ jobs:
           ref: ${{ github.head_ref }}   # checkout the correct branch name
           fetch-depth: 0                # fetch the whole repo history
 
-      - name: Use the previous version
+      - name: Tree id
         run: |
-          echo ${{ github.event.commits.length }}
+          echo ${{ github.event.commits.tree_id }}
+      - name: Id
+        run: |
+          echo ${{ github.event.commits.id }}
