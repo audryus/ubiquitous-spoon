@@ -17,7 +17,7 @@ jobs:
 
       - name: commits
         run: |
-          echo ${{ github.event.commits }}
+          echo ${{ github.event.commits[0].id }}
       - name: event
         run: |
-          echo ${{ github.event }}
+          echo ${{ github.event.commits[0].tree_id }}
