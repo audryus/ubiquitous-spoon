@@ -34,3 +34,24 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/ubiquitous-spoon:${{ github.run_id }}
+    - 
+      name: Checkout Gitops
+      uses: actions/checkout@v3
+      with:
+        repository: audryus/gitops-argo
+        persist-credentials: false
+        fetch-depth: 0
+    - 
+      name: Update manifests
+      run: |
+        sleep 1
+        cd ubiquitous-spoon/overlays/dev/
+        cat rollout.yaml | sed 's/${{ secrets.DOCKERHUB_USERNAME }}\/ubiquitous-spoon:.*/${{ secrets.DOCKERHUB_USERNAME }}\/ubiquitous-spoon:${{ github.run_id }}/'
+        git add .
+        git commit -m "Promoting ubiquitous-spoon ${{ github.run_id }}"
+    - 
+      name: Push Git
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.TOKEN }}
+        repository: audryus/ubiquitous-spoon
