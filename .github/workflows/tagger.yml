@@ -46,7 +46,9 @@ jobs:
       run: |
         sleep 1
         cd ubiquitous-spoon/overlays/dev/
-        cat rollout.yaml | sed 's/${{ secrets.DOCKERHUB_USERNAME }}\/ubiquitous-spoon:.*/${{ secrets.DOCKERHUB_USERNAME }}\/ubiquitous-spoon:${{ github.run_id }}/'
+        cat rollout.yaml | sed 's/${{ secrets.DOCKERHUB_USERNAME }}\/ubiquitous-spoon:.*/${{ secrets.DOCKERHUB_USERNAME }}\/ubiquitous-spoon:${{ github.run_id }}/' | tee rollout.yaml
+        git config --global user.email "audryus@gmail.com"
+        git config --global user.name "GitHub Action"
         git add .
         git commit -m "Promoting ubiquitous-spoon ${{ github.run_id }}"
     - 
